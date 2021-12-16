@@ -22,7 +22,7 @@ int is_vowel(char ch){
     }
     return 0;
 }
-void is_count(string str){
+void counting(string str){
     int cnt=1,letter_cnt=0,digit_cnt=0,others=0;
     for(int i=0;i<str.size();i++){
         if(str[i]==' '&&(is_char(str[i+1])||is_digit(str[i+1]))){
@@ -90,13 +90,49 @@ void vowel_and_consonant(string str){
     cout<<"Consonants :"<<consonants<<endl;
     cout<<endl;
 }
+/*void separate_vowel_and_consonant_word(string str){
+    string str1,str2;
+    int l1=0,l2=0;
+    int sz=str.size();
+    str[sz]=' ';
+    for(int i=0;i<=sz;i++){
+        if(is_vowel(str[i])){
+            while(str[i]!=' '){
+                ///str1[l1]=str[i]; ??
+                l1++;
+                i++;
+                cout<<str1[l1]<<endl;
+            }
+            i--;
+            str1[l1++]=' ';
+            //cout<<i<<"u"<<endl;
+        }
+        else if(is_char(str[i])&&!is_vowel(str[i])){
+            cout<<i<<"blaba"<<endl;
+            while(str[i]!=' '){
+                ///str2[l2]=str[i]; ??
+                l2++;
+                i++;
+            }
+            i--;
+            str2[l2++]=' ';
+        }
+        //cout<<i<<"v"<<endl;
+    }
+    cout<<"Words started with vowel :"<<str1<<endl;
+    cout<<"Words started with consonant :"<<str2<<endl;
+}
+*/
 int main(){
-    string s;
-    getline(cin,s);
-    is_count(s);
+    //ami am khai
+    //Md. Tareq Zaman, Part-3, 2019
+    string s="Md. Tareq Zaman, Part-3, 2019";
+    //getline(cin,s);
+    counting(s);
     separate(s);
     vowel_and_consonant_count(s);
     vowel_and_consonant(s);
+//    separate_vowel_and_consonant_word(s);
 
     return 0;
 }
