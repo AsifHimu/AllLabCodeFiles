@@ -1,0 +1,12 @@
+clc;
+clear all;
+close all;
+x=[1 2 3 4];
+h=[1 1 1 1];
+y=conv(x,h);
+subplot(2,2,1);
+stem(x);
+subplot(2,2,2);
+stem(h);
+subplot(2,2,3);
+stem(y);
