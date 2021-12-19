@@ -1,0 +1,28 @@
+clc;
+close all;
+clear all;
+a=12;
+f=1;
+fs=150;
+T=2;
+ph=0;
+t=0:1/fs:T;
+x1=a*sin(2*pi*f*t+ph);
+a=2;
+f=3;
+ph=0;
+x2=a*sin(2*pi*f*t+ph);
+a=3;
+f=5;
+ph=0;
+x3=a*sin(2*pi*f*t+ph);
+x=x1+x2+x3;
+
+subplot(4,1,1);
+plot(t,x1);
+subplot(4,1,2);
+plot(t,x2);
+subplot(4,1,3);
+plot(t,x3);
+subplot(4,1,4);
+plot(t,x);
