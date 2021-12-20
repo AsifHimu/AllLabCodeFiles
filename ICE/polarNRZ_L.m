@@ -3,7 +3,7 @@ close all;
 clear all;
 
 bits=[1 1 0 1 0];
-bit_dur=1;
+bit_dur=2;
 T=length(bits)*bit_dur;
 fs=100;
 t=0:1/fs:T-(1/fs);
