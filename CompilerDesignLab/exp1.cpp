@@ -126,8 +126,10 @@ void vowel_and_consonant(string str){
 int main(){
     //ami am khai
     //Md. Tareq Zaman, Part-3, 2019
-    string s="Md. Tareq Zaman, Part-3, 2019";
-    //getline(cin,s);
+    //string s="Md. Tareq Zaman, Part-3, 2019";
+    string s;
+    freopen("in.txt","r",stdin);
+    getline(cin,s);
     counting(s);
     separate(s);
     vowel_and_consonant_count(s);

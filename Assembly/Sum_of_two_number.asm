@@ -1,0 +1,31 @@
+.MODEL  SMALL
+.STACK 100H
+
+.DATA
+A  DB  '2'
+B  DB  '5'
+SUM DB ?
+
+.CODE
+MAIN PROC
+;initialize DS
+MOV AX,@DATA
+MOV DS,AX
+
+;add the numbers
+MOV AL, A
+ADD AL, B 
+
+MOV SUM,AL
+SUB SUM,30H
+MOV DL,SUM
+
+MOV AH,02H
+INT 21H
+
+;exit to DOS
+MOV AH,4CH
+INT 21H
+
+MAIN ENDP
+END MAIN

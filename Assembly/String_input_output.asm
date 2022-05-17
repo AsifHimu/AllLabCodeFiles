@@ -1,0 +1,43 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+X DB 80 DUP (?)
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    MOV SI,0000H
+    MOV AH,01H
+    NEXT:
+    INT 21H
+    CMP AL,0DH
+    JZ EXIT
+    MOV X[SI],AL
+    INC SI
+    JMP NEXT
+    EXIT:
+    
+    MOV AH,02H
+    MOV DL,0AH
+    INT 21H
+    MOV DL,0DH
+    INT 21H
+    
+    MOV DI,0000H
+    NEXT2:
+    MOV DL,X[DI]
+    INT 21H
+    INC DI
+    CMP SI,DI
+    JZ EXIT2
+    JMP NEXT2
+    EXIT2:
+    
+    MOV AH,4CH
+    INT 21H
+MAIN ENDP
+END MAIN
+    
