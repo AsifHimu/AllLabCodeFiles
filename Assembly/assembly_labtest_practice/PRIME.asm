@@ -1,0 +1,26 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+MSG DB 'Enter the number',0AH,0DH,'$'
+PRIME DB 0AH,0DH,'PRIME NUMBER$'
+NOTPRIME DB 0AH,0DH,'NOT PRIME NUMBER$'
+NUM DB ?
+
+.CODE
+MAIN PROC
+    MOV AX,@DATA
+    MOV DS,AX
+    
+    LEA DX,MSG
+    MOV AH,09H
+    INT 21H
+    
+    MOV AH,01H
+    INT 21H
+    
+    MOV NUM,AL
+    SUB AL,'0'
+    
+    
+    
