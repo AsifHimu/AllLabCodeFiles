@@ -31,8 +31,6 @@ void midpointCircle(int g,int h,int r){
     }
 }
 
-
-
 int main() {
     int gd=DETECT, gm=DETECT;
     initgraph(&gd,&gm,"");
