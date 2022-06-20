@@ -19,7 +19,7 @@ def main():
     grayscale = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
     print("Grayscale shape = ", grayscale.shape)
 
-    _, binary = cv2.threshold(grayscale, 50, 255, cv2.THRESH_BINARY)
+    _, binary = cv2.threshold(grayscale, 100, 255, cv2.THRESH_BINARY)
     print("Binary shape = ", binary.shape)
 
     plt.figure(figsize=(15, 15))
