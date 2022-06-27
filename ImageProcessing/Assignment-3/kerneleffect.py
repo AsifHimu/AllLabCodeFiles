@@ -13,7 +13,9 @@ def main():
     #kernel1
     kernel1 = np.array([[1, 0, -1], [1, 0, -1], [1, 0, -1]])
     processed_img1 = cv2.filter2D(grayscale, -1, kernel1)
-    print('Kernel1: {}'.format(kernel1))
+    #print('Kernel1: {}'.format(kernel1))
+    print('Kernel1: ')
+    print(kernel1)
     #kernel2
     kernel2 = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
     processed_img2 = cv2.filter2D(grayscale, -1, kernel2)

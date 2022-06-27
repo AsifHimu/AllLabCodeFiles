@@ -60,6 +60,8 @@ def main():
     plt.imshow(s, cmap='gray')
     plt.savefig('Prcessedfigure')
     plt.show()
+    
+    
 
 if __name__ == '__main__':
 	main()

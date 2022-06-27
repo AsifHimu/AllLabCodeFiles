@@ -21,6 +21,7 @@ def main():
     _, binary = cv2.threshold(grayscale, 50, 255, cv2.THRESH_BINARY)
     print("Binary shape = ",binary.shape)
     
+    """
     plt.figure(figsize = (15,15))
     
     plt.subplot(2, 3, 1)
@@ -48,9 +49,10 @@ def main():
     plt.imshow(binary, cmap='gray')
     plt.savefig('fig1')
     plt.show()
+    """
     
-    plt.figure(figsize=(15, 15))
-    
+    """
+    plt.figure(figsize=(15, 15))  
     plt.subplot(2,3,1)
     plt.title('red')
     plt.hist(red.ravel(),256,[0,256]);
@@ -71,8 +73,31 @@ def main():
     plt.title('binary')
     plt.hist(binary.ravel(), 256, [0, 256])
     plt.savefig('fig2')
-    plt.show()        
+    plt.show() 
+    """
+    img_set = [rgb,red,green,blue,grayscale,binary]
+    title_set = ['rgb','red','green','blue','grayscale','binary']
     
+    plt.figure(figsize=(15, 15))
+    for i in range(6):
+        img = img_set[i]
+        plt.subplot(2,3,i+1)
+        plt.title(title_set[i])
+        cnt = len(img.shape)
+        if(cnt == 3):
+            plt.imshow(img_set[i])
+        else:
+            plt.imshow(img_set[i],cmap='gray')
+    plt.show()
+    
+    plt.figure(figsize=(15, 15))
+    for i in range(6):
+        img = img_set[i]
+        plt.subplot(2, 3, i+1)
+        plt.title(title_set[i])
+        plt.hist(img_set[i].ravel(), 256, [0, 256])
+    plt.show()
+                
 if __name__ == '__main__':
     main()
     
