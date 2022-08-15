@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 def main():
-    img_path = 'nature.jpg'
+    img_path = 'village.jpg'
     rgb = plt.imread(img_path)
     
     grayscale = cv2.cvtColor(rgb,cv2.COLOR_RGB2GRAY)
