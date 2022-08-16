@@ -1,103 +1,76 @@
-from cv2 import THRESH_BINARY
-import matplotlib.pyplot as plt
 import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def custom_hist(img):
+    d = dict()
+    for i in range(256):
+        d[i] = 0
+
+    for i in img:
+        for j in i:
+            d[j] += 1
+    return d
+
+
+def convulation(img, kernal):
+
+    row, col = img.shape
+
+    r, c = kernal.shape[0]//2, kernal.shape[1]//2
+
+    r, c = r*2, c*2
+
+    new_image = np.zeros((row-r, col-c), dtype=np.uint8)
+    print(new_image.shape)
+
+    for i in range(row-r):
+        for j in range(col-c):
+            x = np.sum(np.multiply(img[i:3+i, j:3+j], kernal))
+            if(x < 0):
+                new_image[i][j] = 0
+            elif(x > 255):
+                new_image[i][j] = 255
+            else:
+                new_image[i][j] = x
+    return new_image
+
 
 def main():
-    img_path = 'himu.jpg'
+    img_path = 'messi.png'
     rgb = plt.imread(img_path)
-    print("RGB shape = ",rgb.shape)
-    
-    red = rgb[:, :, 0]
-    green = rgb[:, :, 1]
-    blue = rgb[:, :, 2]
-    
-    print("Red shape = ",red.shape)
-    print("Green shape = ",green.shape)
-    print("Blue shape = ",blue.shape)
-    
-    grayscale = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
-    print("Grayscale shape = ",grayscale.shape);
-    
-    _, binary = cv2.threshold(grayscale, 50, 255, cv2.THRESH_BINARY)
-    print("Binary shape = ",binary.shape)
-    
-    """
-    plt.figure(figsize = (15,15))
-    
-    plt.subplot(2, 3, 1)
-    plt.title('rgb')
-    plt.imshow(rgb)
-    
-    plt.subplot(2, 3, 2)
-    plt.title('red')
-    plt.imshow(red, cmap='gray')
-    
-    plt.subplot(2, 3, 3)
-    plt.title('green')
-    plt.imshow(green, cmap='gray')
-    
-    plt.subplot(2, 3, 4)
-    plt.title('blue')
-    plt.imshow(blue, cmap='gray')
-    
-    plt.subplot(2, 3, 5)
-    plt.title('grayscale')
-    plt.imshow(grayscale, cmap='gray')
-    
-    plt.subplot(2, 3, 6)
-    plt.title('binary')
-    plt.imshow(binary, cmap='gray')
-    plt.savefig('fig1')
+    gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
+    #custom function:
+    print(rgb.shape)
+    avarage_kernal = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+    #r = rgb[:, :, 0]
+    #red = custom_hist(r)
+    #print(gray.shape)
+
+    custom_conv = convulation(gray, avarage_kernal)
+
+    #builtin function :
+
+    bu_red = cv2.calcHist([rgb], [0], None, [256], [0, 256])
+    bu_conv = cv2.filter2D(gray, -1, avarage_kernal)
+
+    plt.subplot(2, 2, 1)
+    plt.title("Custom hisogram Function")
+    #plt.plot(red.keys(), red.values(), 'r')
+    plt.subplot(2, 2, 2)
+    plt.title("Using calcHist Function")
+    plt.plot(bu_red, 'r')
+
+    plt.subplot(2, 2, 3)
+    plt.title("Custom convulation Function")
+    plt.imshow(custom_conv, cmap='gray')
+    plt.subplot(2, 2, 4)
+    plt.title("Using Built Function")
+    plt.imshow(bu_conv, cmap='gray')
+    plt.tight_layout()
     plt.show()
-    """
-    
-    """
-    plt.figure(figsize=(15, 15))  
-    plt.subplot(2,3,1)
-    plt.title('red')
-    plt.hist(red.ravel(),256,[0,256]);
-    
-    plt.subplot(2, 3, 2)
-    plt.title('green')
-    plt.hist(green.ravel(), 256, [0, 256])
-    
-    plt.subplot(2, 3, 3)
-    plt.title('blue')
-    plt.hist(blue.ravel(), 256, [0, 256])
-    
-    plt.subplot(2, 3, 4)
-    plt.title('grayscale')
-    plt.hist(grayscale.ravel(), 256, [0, 256])
-    
-    plt.subplot(2, 3, 5)
-    plt.title('binary')
-    plt.hist(binary.ravel(), 256, [0, 256])
-    plt.savefig('fig2')
-    plt.show() 
-    """
-    img_set = [rgb,red,green,blue,grayscale,binary]
-    title_set = ['rgb','red','green','blue','grayscale','binary']
-    
-    plt.figure(figsize=(15, 15))
-    for i in range(6):
-        img = img_set[i]
-        plt.subplot(2,3,i+1)
-        plt.title(title_set[i])
-        cnt = len(img.shape)
-        if(cnt == 3):
-            plt.imshow(img_set[i])
-        else:
-            plt.imshow(img_set[i],cmap='gray')
-    plt.show()
-    
-    plt.figure(figsize=(15, 15))
-    for i in range(6):
-        img = img_set[i]
-        plt.subplot(2, 3, i+1)
-        plt.title(title_set[i])
-        plt.hist(img_set[i].ravel(), 256, [0, 256])
-    plt.show()
-                
+
+
 if __name__ == '__main__':
     main()
-    
