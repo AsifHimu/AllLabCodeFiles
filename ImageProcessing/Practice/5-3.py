@@ -11,7 +11,8 @@ def main():
     laplacian = np.array([[0, 1, 0], [1, -4, 1], [0, 1, 0]])
     img1 = cv2.filter2D(gray, -1, laplacian)
 
-    sobel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+    #sobel = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]]) #horizontal_edge
+    sobel = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]) #vertical_edge
     img2 = cv2.filter2D(gray, -1, sobel)
 
     plt.subplot(2, 1, 1)
