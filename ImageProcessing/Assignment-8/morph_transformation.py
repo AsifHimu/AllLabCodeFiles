@@ -2,14 +2,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 def main():
-    img_path = 'img1.jpg'
+    img_path = 'village.jpg'
     rgb = plt.imread(img_path)
     print(rgb.shape)
     
-    grayscale = cv2.cvtColor(rgb,cv2.COLOR_BGR2GRAY)  
+    grayscale = cv2.cvtColor(rgb,cv2.COLOR_RGB2GRAY)  
     _,binary = cv2.threshold(grayscale,120,255,cv2.THRESH_BINARY)
     
-    kernel1 = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+    kernel1 = np.array([
+        [0, 1, 0],
+        [1, 1, 1],
+        [0, 1, 0]
+    ], dtype=np.uint8)
     kernel2 = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
     kernel3 = cv2.getStructuringElement(cv2.MORPH_CROSS, (5, 5))
     #kernel1

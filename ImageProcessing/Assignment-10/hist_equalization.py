@@ -5,7 +5,7 @@ import random
 
 
 def main():
-    img_path = 'village.jpg'
+    img_path = 'village1.jpg'
     rgb = plt.imread(img_path)
     gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
     print(gray.shape)
