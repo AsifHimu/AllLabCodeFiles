@@ -1,85 +1,60 @@
-import numpy as np
-import pygame
+fhand = open("./input.txt")
+tsk = {}
+for line in fhand:
+    # print(line)
+    element = line.split(',')
+    # print(element)
+    tsk[element[0]] = {}
+    tsk[element[0]]['Activity'] = element[0]
+    tsk[element[0]]['Duration'] = element[1]
+    element[-1] = element[-1].split('\n')[0];
+    tsk[element[0]]['Predecessor'] = element[2:]
+    tsk[element[0]]['ES'] = 0
+    tsk[element[0]]['EF'] = 0
+    tsk[element[0]]['LF'] = 0
+    tsk[element[0]]['LS'] = 0
+    tsk[element[0]]['ST'] = 0
 
-# define range (X,Y) cordinates and N number of points
-X = 900
-Y = 900
-N = 100
-escappedThreshold = 900
+# .............FORWARD_PASS...................
+for tskFW in tsk:
+    if '-' in tsk[tskFW]['Predecessor']:
+        tsk[tskFW]['EF'] = tsk[tskFW]['Duration']
+    else:
+        for key in tsk:
+            for dep in tsk[key]['Predecessor']:
+                if '-' != dep and int(tsk[key]['ES']) < int(tsk[dep]['EF']):
+                    tsk[key]['ES'] = int(tsk[dep]['EF'])
+                    tsk[key]['EF'] = int(tsk[key]['Duration']) + int(tsk[key]['ES'])
 
-caughtThreshold = 100
-t = N
+listB = []
+for k in reversed(list(tsk.keys())):
+    listB.append(k)
 
-# take bomber coordinates, predefined path coordinates from (0 to X,0 to Y)
-xb = np.random.randint(0, X, size=N)
-yb = np.random.randint(0, Y, size=N)
+# .............BACKWARD PASS..................
+for tskBP in listB:
+    if listB.index(tskBP) == 0:
+        tsk[tskBP]['LF'] = int(tsk[tskBP]['EF'])
+        tsk[tskBP]['LS'] = int(tsk[tskBP]['LF']) - int(tsk[tskBP]['Duration'])
+        tsk[tskBP]['ST'] = int(tsk[tskBP]['LF'] - tsk[tskBP]['EF'])
+    for dep in tsk[tskBP]['Predecessor']:
+        if dep == '-':
+            continue
+        if tsk[dep]['LF'] == 0:
+            tsk[dep]['LF'] = int(tsk[tskBP]['LS'])
+            tsk[dep]['LS'] = int(tsk[dep]['LF']) - int(tsk[dep]['Duration'])
+        elif int(tsk[dep]['LF']) > int(tsk[tskBP]['LS']):
+            tsk[dep]['LF'] = int(tsk[tskBP]['LS'])
+            tsk[dep]['LS'] = int(tsk[dep]['LF']) - int(tsk[dep]['Duration'])
+        tsk[dep]['ST'] = int(tsk[dep]['LF']) - int(tsk[dep]['EF'])
 
-# take initial position for fighter and initial velocity
-xf = []
-yf = []
-xf.append(300)
-yf.append(100)
-vf = 50
+for task in tsk:
+    print(task, tsk[task])
 
-# calculate fighter coordinates and find escape or caught situation
-isCaught = False
+# find critical path
+path = []
+for item in listB:
+    if tsk[item]['ST'] == 0:
+        path.append(item)
 
-for i in range(0, N):
-    dist = np.sqrt((yf[i] - yb[i]) ** 2 + (xf[i] - xb[i]) ** 2)
-
-    if (dist <= caughtThreshold):
-        isCaught = True
-        t = i
-        break
-
-    elif dist >= escappedThreshold:
-        t = i
-        break
-
-    sin = (yb[i] - yf[i]) / dist
-    cos = (xb[i] - xf[i]) / dist
-    xf.append(xf[i] + vf * cos)
-    yf.append(yf[i] + vf * sin)
-
-# using pygame for visualization
-pygame.init()
-pygame.display.set_caption("Pure Pursuit Problem Visualization")
-screenSize = (700, 600)
-screen = pygame.display.set_mode(screenSize)
-
-f = pygame.font.get_fonts()[0]
-font = pygame.font.SysFont(f, 32)
-positionText1 = font.render("Boomber Caught", True, (255, 255, 255), (0, 0, 0))
-positionText2 = font.render("Boomber Escapped", True, (255, 255, 255), (0, 0, 0))
-textRect1 = positionText1.get_rect()
-textRect2 = positionText2.get_rect()
-textPosition = (X / 2, Y / 2)
-textRect1.center = textPosition
-textRect2.center = textPosition
-
-running = True;
-while running:
-    screen.fill((150, 0, 0))
-    pygame.time.delay(50)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-            for i in range(0, t):
-                pygame.draw.line(screen, (55, 100, 30), (xf[i], yf[i]), (xf[i + 1], yf[i + 1]), 4)
-                pygame.draw.circle(screen, (55, 100, 30), (xf[i + 1], yf[i + 1]), 4)
-
-                pygame.draw.line(screen, (155, 100, 200), (xb[i], yb[i]), (xb[i + 1], yb[i + 1]), 4)
-                pygame.draw.circle(screen, (155, 100, 200), (xb[i + 1], yb[i + 1]), 4)
-
-                pygame.time.delay(500)
-                pygame.display.update()
-if isCaught:
-    screen.blit(positionText1, textRect1)
-    pygame.draw.line(screen, (255, 0, 0), (xb[t], yb[t]), (xf[t], yf[t]), 4)
-else:
-    screen.blit(positionText2, textRect2)
-pygame.display.update()
-
-pygame.time.delay(5000)
-pygame.quit()
+path = list(reversed(path))
+print(path)
