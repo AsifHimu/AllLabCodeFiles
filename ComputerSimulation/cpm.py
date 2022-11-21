@@ -11,6 +11,7 @@ for line in fhand:
     tsk[element[0]]['EF'] = 0
     tsk[element[0]]['LS'] = 0
     tsk[element[0]]['LF'] = 0
+    tsk[element[0]]['ST'] = 0
 # print(tsk)
 
 # Forward pass
