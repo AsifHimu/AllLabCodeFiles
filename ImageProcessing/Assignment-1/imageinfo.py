@@ -4,7 +4,7 @@ import cv2
 
 
 def main():
-    img_path = 'himu.jpg'
+    img_path = 'image_RGB.jpg'
     rgb = plt.imread(img_path)
     print("RGB shape = ", rgb.shape)
 
@@ -72,6 +72,7 @@ def main():
     plt.title('binary')
     plt.hist(binary.ravel(), 256, [0, 256])
     plt.savefig('histogram.jpg')
+
     plt.show()
 
 

@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 def main():
-    img_path = 'village.jpg'
+    img_path = 'image_RGB.jpg'
     rgb = plt.imread(img_path)
     print(rgb.shape)
     
