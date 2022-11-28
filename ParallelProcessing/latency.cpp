@@ -1,51 +1,83 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// function for calculating forbidden latency
-vector <int> forbiddenLatency(vector <vector<int>> &arr) {
-    set <int> s;
+vector<int> forbiddenlatency(vector<vector<int>>arr){
+    set<int>s;
     int row = arr.size();
     int col = arr[0].size();
-
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col-1; j++) {
-            for (int k = j+1; k < col; k++) {
-                if (arr[i][j] && arr[i][k]) {
+    for(int i=0;i<row;i++){
+        for(int j=0;j<col-1;j++){
+            for(int k=j+1;k<col;k++){
+                if(arr[i][j] && arr[i][k]){
                     s.insert(k-j);
                 }
             }
         }
     }
-    vector <int> res(s.begin(), s.end());
+    vector<int>res(s.begin(),s.end());
     return res;
 }
-
-// function for calculating permissible latency
-vector <int> permissibleLatency(vector <int> &fl, int col) {
-    vector <int> res;
-    for (int i = 0, j = 0; i < col; i++) {
-        if (i == fl[j]-1) {
+vector<int> permissablelatency(vector<int>fl,int col){
+    vector<int>res;
+    int j=0;
+    for(int i=1;i<=col;i++){
+        if(i == fl[j]){
             j++;
-        } 
-        else {
-            res.push_back(i+1);
+        }
+        else{
+            res.push_back(i);
         }
     }
     return res;
 }
-
-// function for calculating collision vector
-vector <int> collisionVector(vector<int> &fl) {
-    int maxFLVal = fl[fl.size()-1];
-    vector <int> res(maxFLVal);
-    for (int i = 0, j = 0; i < maxFLVal; i++) {
-        if (i == fl[j]-1) {
-            res[i] = 1;
+vector<int> collisionvector(vector<int>fl){
+    int mxfl = fl[fl.size()-1];
+    vector<int>res;
+    int j=0;
+    for(int i=1;i<=mxfl;i++){
+        if(i == fl[j]){
+            res.push_back(1);
             j++;
         }
-        else {
-            res[i] = 0; 
+        else{
+            res.push_back(0);
         }
     }
     return res;
+}
+int main(){
+    freopen("reservation-table.txt","r",stdin);
+    int row,col,value;
+    cin>>row>>col;
+    vector<vector<int>>vec;
+    for(int i=0;i<row;i++){
+        vector<int>v1;
+        for(int j=0;j<col;j++){
+            cin>>value;
+            v1.push_back(value);
+        }
+        vec.push_back(v1);
+    }
+    //ForbiddenLatency
+    vector<int>fl = forbiddenlatency(vec);
+    cout<<"ForbiddenLatency : ";
+    for(int i=0;i<fl.size();i++){
+        cout<<fl[i]<<" ";
+    }
+    cout<<endl;
+    //PermissableLatency
+    vector<int>pl = permissablelatency(fl,col);
+    cout<<"PermissableLatency : ";
+    for(int i=0;i<pl.size();i++){
+        cout<<pl[i]<<" ";
+    }
+    cout<<endl;
+    //Collsiionvector
+    vector<int>cv = collisionvector(fl);
+    reverse(cv.begin(),cv.end());
+    cout<<"CollisionVector : ";
+    for(int i=0;i<cv.size();i++){
+        cout<<cv[i]<<" ";
+    }
+    cout<<endl;
 }

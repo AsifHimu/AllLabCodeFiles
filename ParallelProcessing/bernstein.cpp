@@ -2,11 +2,18 @@
 using namespace std;
 
 int main(){
+    /*
+    P1: C:=D*E;
+    P2: M:=G+C;
+    P3: A:=B+C;
+    P4: C:=L+M;
+    P5: F:=G/E;
+    */
 	freopen("input.txt","r",stdin);
 	vector<vector<char>> in;
 	vector<char>out;
 	string s;
-	
+
 	while(getline(cin,s)){
 		bool flag = true;
 		vector<char>temp;
@@ -28,7 +35,7 @@ int main(){
 				continue;
 			}
 			if(find(in[j].begin(),in[j].end(),out[i]) != in[j].end()){
-				cout << "P" << i + 1 << " and P" << j + 1 << " are follow-dependent.\n";
+				cout << "P" << i + 1 << " and P" << j + 1 << " are flow-dependent.\n";
 				continue;
 			}
 			if(out[i] == out[j]){
