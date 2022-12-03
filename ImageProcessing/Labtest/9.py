@@ -1,52 +1,57 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import cv2
 
-def erosion(img,kernel):
-    row,col = img.shape
+def erosion(matrix,kernel):
+    row = matrix.shape[0]
+    col = matrix.shape[1]
     r = 2
     c = 2
     new_img = np.zeros((row-r,col-c),dtype=np.uint8)
     val = np.sum(kernel) * 255
     for i in range(row - r):
         for j in range(col - c):
-            temp = np.sum(np.multiply(img[i:3+i,j:3+j],kernel))
-            if(temp == val):
+            temp = np.sum(np.multiply(matrix[i:3+i,j:3+j],kernel))
+            if temp == val:
                 new_img[i][j] = 255
+                
     return new_img
 
-
-def dialation(img, kernel):
-    row, col = img.shape
+def dilation(matrix,kernel):
+    row = matrix.shape[0]
+    col = matrix.shape[1]
     r = 2
     c = 2
-    new_img = np.zeros((row-r, col-c), dtype=np.uint8)
+    new_img = np.zeros((row-r,col-c),dtype=np.uint8)
     val = 255
     for i in range(row - r):
         for j in range(col - c):
-            temp = np.sum(np.multiply(img[i:3+i, j:3+j], kernel))
-            if(temp >= val):
+            temp = np.sum(np.multiply(matrix[i:3+i,j:3+j],kernel))
+            if temp >= val:
                 new_img[i][j] = 255
+                
     return new_img
 
 def opening(img,kernel):
     img1 = erosion(img,kernel)
-    new_img = dialation(img1,kernel)
+    new_img = dilation(img1,kernel)
     return new_img
 
-def closing(img, kernel):
-    img1 = dialation(img, kernel)
-    new_img = erosion(img1, kernel)
+def closing(img,kernel):
+    img1 = dilation(img,kernel)
+    new_img = erosion(img1,kernel)
     return new_img
-
+    
 def main():
     img_path = 'village.jpg'
     rgb = plt.imread(img_path)
-    
     grayscale = cv2.cvtColor(rgb,cv2.COLOR_RGB2GRAY)
-    _,binary = cv2.threshold(grayscale,125,255,cv2.THRESH_BINARY)
-    
-    kernel = np.array([[0,1,0],[1,1,1],[0,1,0]],dtype=np.uint8)
+    th,binary = cv2.threshold(grayscale,125,255,cv2.THRESH_BINARY)
+    kernel = np.array([
+        [0,1,0],
+        [1,1,1],
+        [0,1,0]
+    ],dtype=np.uint8)
     
     plt.subplot(2, 3, 1)
     plt.title('Binary')
@@ -59,7 +64,7 @@ def main():
 
     plt.subplot(2, 3, 3)
     plt.title('dialation')
-    dialate = dialation(binary, kernel)
+    dialate = dilation(binary, kernel)
     plt.imshow(dialate, cmap='gray')
 
     plt.subplot(2, 3, 4)
@@ -71,10 +76,8 @@ def main():
     plt.title('closing')
     close = closing(binary, kernel)
     plt.imshow(close, cmap='gray')
-    
-    plt.savefig('Morphology.jpg')
+
     plt.show()
     
-
 if __name__ == '__main__':
     main()
