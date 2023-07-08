@@ -50,6 +50,8 @@ def encode_decode(input_file_path, output_file_path):
         text = f.read()
     probabilities = probability_distribution(text)
     encoded_text = arithmetic_encoding(text, probabilities)
+    with open("encoded_output.txt", 'w') as f:
+        f.write(decoded_text)
     text_length = len(text)
     decoded_text = arithmetic_decoding(encoded_text, probabilities, text_length)
     with open(output_file_path, 'w') as f:
@@ -57,5 +59,5 @@ def encode_decode(input_file_path, output_file_path):
 
 if __name__ == '__main__':
     input_file_path = 'input.txt'
-    output_file_path = 'output.txt'
+    output_file_path = 'decoded_output.txt'
     encode_decode(input_file_path, output_file_path)

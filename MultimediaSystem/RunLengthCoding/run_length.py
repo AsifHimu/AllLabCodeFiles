@@ -9,7 +9,8 @@ def encode_RLE(data):
         else:
             encoded_data += str(count) + char
             count = 1
-            char = data[i]
+        char = data[i]
+            
     encoded_data += str(count) + char
     return encoded_data
 
@@ -23,13 +24,16 @@ def decode_RLE(data):
         else:
             decoded_data += int(count) * i
             count = ""
+            
     return decoded_data
 
 #read the data from input files
+encoded_data = ""
 with open("input.txt","r") as input_file:
-    data = input_file.read().strip().replace(' ','')
-#print(data)
-encoded_data = encode_RLE(data)
+    #data = input_file.read().strip().replace(' ','')
+    #print(data)
+    for line in input_file.readlines():
+        encoded_data += encode_RLE(line)
 #print(encoded_data)
 
 #write the encoded data in a file
