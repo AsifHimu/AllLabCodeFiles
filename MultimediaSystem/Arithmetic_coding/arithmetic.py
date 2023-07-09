@@ -2,7 +2,7 @@ from decimal import Decimal, getcontext
 from collections import Counter
 
 # Set decimal precision
-getcontext().prec = 30
+getcontext().prec = 50
 
 def generate_probability_range(symbols):
     total_count = len(symbols)
@@ -36,6 +36,7 @@ def decode(encoded_message, prob_range, message_length):
         for symbol, symbol_range in prob_range.items():
             symbol_low, symbol_high = symbol_range
             symbol_width = symbol_high - symbol_low
+            #print(high,low,symbol)
             if low >= symbol_low and high <= symbol_high:
                 message += symbol
                 high = (high - symbol_low) / symbol_width
