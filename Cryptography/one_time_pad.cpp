@@ -7,7 +7,7 @@ string encrypt(string msg){
     ifstream input("random_string.txt");
     input>>pad;
 
-    for(int i = 0; i <= msg.size(); i++){
+    for(int i = 0; i < msg.size(); i++){
         if(isupper(msg[i])){
             cipher += (char)(((msg[i] - 'A') + (pad[i] - 'A')) % 26 + 'A');
         }
@@ -28,7 +28,7 @@ string decrypt(string cipher){
     ifstream input("random_string.txt");
     input>>pad;
 
-    for(int i = 0; i <= cipher.size(); i++){
+    for(int i = 0; i < cipher.size(); i++){
         if(isupper(cipher[i])){
             msg += (char)(((cipher[i] - 'A') - (pad[i] - 'A') + 26) % 26 + 'A');
         }

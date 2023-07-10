@@ -3,17 +3,18 @@ using namespace std;
 
 char mat[200][200];
 
-string encryption(string s,int width){
-    string encrypted;
-    int len = s.size();
+string encryption(string text,int width){
+    int l = text.size();
     int row = 0,col = 0;
-    for(int i=0;i<len;i++){
-        mat[row][col++] = s[i];
+    string encrypted;
+
+    for(int i=0;i<l;i++){
+        mat[row][col++] = text[i];
         if(col >= width){
             row++;
             col = 0;
         }
-    }   
+    }
     for(int i=0;i<width;i++){
         for(int j=0;j<=row;j++){
             if(mat[j][i] == 0){
@@ -25,17 +26,18 @@ string encryption(string s,int width){
     return encrypted;
 }
 
-string decryption(string s,int width){
+string decryption(string text,int width){
     string decrypted;
-    int len =s.size();
-    int row = (len/width)+(len%width > 0);
+    int len = text.size();
+    int row = (len/width) + (len%width > 0);
     int k = 0;
+
     for(int i=0;i<width;i++){
         for(int j=0;j<row;j++){
             if(mat[j][i] == 0){
                 continue;
             }
-            mat[j][i] = s[k++];
+            mat[j][i] = text[k++]; 
         }
     }
     for(int i=0;i<row;i++){
@@ -48,27 +50,23 @@ string decryption(string s,int width){
 
 int main(){
     freopen("input.txt","r",stdin);
-    string s;
-    getline(cin,s);
-    string encrypted,decrypted;
+    string text;
+    getline(cin,text);
+
+    memset(mat,0,sizeof(mat));
     int width = 10;
     int iteration = 1;
-    memset(mat,0,sizeof(mat));
-
-    //Encryption
+    string encrypted,decrypted;
+    cout<<"Input message:"<<text<<endl;
     for(int i=0;i<iteration;i++){
-        encrypted = encryption(s,width);
-        //s = encrypted;
+        encrypted = encryption(text, width);
+        //text = encrypted;
     }
-    cout<<"Encrypted text :"<<endl;
-    cout<<encrypted<<endl;
+    cout<<"Encrypted message :"<<encrypted<<endl;
 
-    //Decryption
-    decrypted = encrypted;
     for(int i=0;i<iteration;i++){
-        decrypted = decryption(decrypted,width);
+        decrypted = decryption(encrypted,width);
     }
-    cout<<"Decrypted text :"<<endl;
-    cout<<decrypted<<endl;
+    cout<<"Decrypted message :"<<decrypted<<endl;
     return 0;
 }

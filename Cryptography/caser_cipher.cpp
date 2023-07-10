@@ -35,9 +35,9 @@ int main(){
     string text;
     cout<<"Enter the original text: "<<endl;
     getline(cin,text);
-    int shift;
-    cout<<"How many shift to right?"<<endl;
-    cin>>shift;
+    int shift = 3;
+    //cout<<"How many shift to right?"<<endl;
+    //cin>>shift;
     string cipher;
     cipher = encrypt(text,shift);
     cout<<"Encrypted text: "<<endl;
